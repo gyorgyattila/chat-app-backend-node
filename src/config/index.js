@@ -2,9 +2,13 @@ const environment = require('./environment');
 //Import the mongoose module
 var mongoose = require('mongoose');
 
-//Set up default mongoose connection
-var mongoDB = environment.DB_CONNECTION;
-mongoose.connect(mongoDB, { useNewUrlParser: true, useUnifiedTopology: true,  useFindAndModify: false });
+var MONGO_DB;
+var dockerDB = environment.DB_CONNECTION;
+if ( dockerDB ) {
+  MONGO_DB = dockerDB.replace( 'tcp', 'mongodb' ) + '/chatapp';
+}
+
+mongoose.connect(MONGO_DB, { useNewUrlParser: true, useUnifiedTopology: true,  useFindAndModify: false });
 
 //Get the default connection
 var db = mongoose.connection;
