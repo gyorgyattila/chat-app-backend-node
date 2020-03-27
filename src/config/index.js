@@ -4,8 +4,10 @@ var mongoose = require('mongoose');
 
 var MONGO_DB;
 var dockerDB = environment.DB_CONNECTION;
-if ( dockerDB ) {
+if ( dockerDB !== undefined ) {
   MONGO_DB = dockerDB.replace( 'tcp', 'mongodb' ) + '/chatapp';
+}else {
+  MONGO_DB = 'mongodb://172.31.46.21:27017/chat-app';
 }
 
 mongoose.connect(MONGO_DB, { useNewUrlParser: true, useUnifiedTopology: true,  useFindAndModify: false });
